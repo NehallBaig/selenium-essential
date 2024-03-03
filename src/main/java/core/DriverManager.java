@@ -1,32 +1,31 @@
 package core;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
+import java.time.Duration;
+
 
 public class DriverManager {
 
-    public static WebDriver driver;
+    public WebDriver driver;
 
-    public static WebDriver launchDriver() {
+    public WebDriver launchDriver() {
         if (driver == null) {
             String browserName = "chrome";
             try {
                 if (browserName.equalsIgnoreCase("chrome")) {
-                    WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
-                    options.setHeadless(false);
                     options.addArguments("--remote-allow-origins=*");
                     driver = new ChromeDriver(options);
                 } else if (browserName.equalsIgnoreCase("firefox")) {
-                    WebDriverManager.firefoxdriver().setup();
+                    //  WebDriverManager.firefoxdriver().setup();
                     driver = new FirefoxDriver();
                 } else if (browserName.equalsIgnoreCase("ie")) {
-                    WebDriverManager.iedriver().setup();
+                    // WebDriverManager.iedriver().setup();
                     driver = new InternetExplorerDriver();
                 }
 
@@ -41,6 +40,10 @@ public class DriverManager {
 
     public WebDriver getDriver() {
         return driver;
+    }
+
+    public void quitDriver() {
+        driver.quit();
     }
 
 }

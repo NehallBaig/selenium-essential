@@ -17,15 +17,19 @@ public class HiddenElementPage extends AbstractPage {
     @FindBy(id = "myElement")
     WebElement hiddenElement;
 
+    @FindBy(id = "btnDisplay3Sec")
+    WebElement btnDisplay3Sec;
     @FindBy(id = "btnDisplay5Sec")
     WebElement btnDisplay5Sec;
     @FindBy(id = "btnDisplay10Sec")
     WebElement btnDisplay10Sec;
-    @FindBy(id = "btnDisplay15Sec")
-    WebElement btnDisplay15Sec;
 
     public boolean isHiddenElementInTheDom() {
         return Utils.waitForNonDisplayedElement(driver, hiddenElement, 20);
+    }
+
+    public void clickOnBtnDisplay3Sec() {
+        btnDisplay3Sec.click();
     }
 
     public void clickOnBtnDisplay5Sec() {
@@ -34,10 +38,6 @@ public class HiddenElementPage extends AbstractPage {
 
     public void clickOnBtnDisplay10Sec() {
         btnDisplay10Sec.click();
-    }
-
-    public void clickOnBtnDisplay15Sec() {
-        btnDisplay15Sec.click();
     }
 
 }

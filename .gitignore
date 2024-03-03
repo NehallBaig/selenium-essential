@@ -54,3 +54,6 @@ Thumbs.db
 
 #Remove Reports
 *.html
+
+# Except for HiddenElementExampleWebPage.html
+!HiddenElementExampleWebPage.html

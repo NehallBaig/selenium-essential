@@ -8,6 +8,14 @@ import java.time.Duration;
 
 public class Utils {
 
+    public static void waitForSomeTime(WebDriver driver, int sec) {
+        try {
+            Thread.sleep(sec * 1000);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public static boolean waitForNonDisplayedElement(WebDriver driver, WebElement element, int sec) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(sec));

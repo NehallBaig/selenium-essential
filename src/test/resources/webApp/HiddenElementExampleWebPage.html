@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .btn{
+         margin: 5px;
+        }
+        .hidden-element {
+          display: none;
+        }
+        #myElement {
+          padding: 10px; /* Add padding for better visibility */
+        }
+    </style>
+
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Hidden Element Example</h1>
+    <p>This is some visible content.</p>
+    <button id="btnDisplay3Sec" class="btn btn-primary" onclick="displayElement(3000)">Display Hide element after 3 seconds</button>
+    <button id="btnDisplay5Sec" class="btn btn-success" onclick="displayElement(5000)">Display Hide element after 5 seconds</button>
+    <button id="btnDisplay10Sec" class="btn btn-danger" onclick="displayElement(10000)">Display Hide element after 10 seconds</button>
+
+    <div id="hiddenElement" class="hidden-element mt-3 alert alert-success">
+        <p id="myElement" class="mb-0"> This element is in the DOM but not displayed on the screen.</p>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function displayElement(timeout) {
+      var element = document.getElementById("hiddenElement");
+      var textElement = document.getElementById("myElement");
+
+      setTimeout(function () {
+        element.style.display = "block";
+        textElement.innerHTML = "<strong style='font-weight: bold; color: #0d47a1;'>The previously hidden element is now visible</strong> after <strong style='color: black;'>" + (timeout / 1000) + " seconds.</strong>";
+      }, timeout);
+    }
+</script>
+</body>
+</html>
