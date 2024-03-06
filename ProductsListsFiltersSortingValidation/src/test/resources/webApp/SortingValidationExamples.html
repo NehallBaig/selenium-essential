@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Product and Price Table</title>
+    <style>
+
+        #productTable {
+            border: 2px solid #dee2e6; /* Recommended border color */
+        }
+
+        #productTable th {
+            background-color: #007bff; /* Change header background color */
+            color: #fff; /* Header text color */
+        }
+
+        .highlight-row {
+            background-color: #add8e6; /* Decent color for highlighted rows */
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <h2>Sorting Validation Playground</h2>
+    <table class="table table-bordered " id="productTable"> <!-- Apply table-light class for a light background -->
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th id="prodAscHeader">Prod Asc</th>
+            <th id="priceAscHeader">Price Asc</th>
+            <th id="prodDescHeader">Prod Desc</th>
+            <th id="priceDescHeader">Price Desc</th>
+            <th id="complexQueryHeader">Promoted Product Query</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Replace the sample data with your actual data -->
+        <tr id="row1">
+            <td>1</td>
+            <td class="prodAsc">Camera</td>
+            <td class="priceAsc">$12,345.67</td>
+            <td class="prodDesc">TV</td>
+            <td class="priceDesc">$98,765.43</td>
+            <td class="complexQuery highlight-row">AdProduct1</td>
+        </tr>
+        <tr id="row2">
+            <td>2</td>
+            <td class="prodAsc">Headphones</td>
+            <td class="priceAsc">$34,567.89</td>
+            <td class="prodDesc">Smartwatch</td>
+            <td class="priceDesc">$65,432.10</td>
+            <td class="complexQuery highlight-row">AdProduct2</td>
+        </tr>
+        <tr id="row3">
+            <td>3</td>
+            <td class="prodAsc">iPhone</td>
+            <td class="priceAsc">$54,321.09</td>
+            <td class="prodDesc">iPhone</td>
+            <td class="priceDesc">$45,678.12</td>
+            <td class="complexQuery highlight-row">AdProduct3</td>
+        </tr>
+        <tr id="row4">
+            <td>4</td>
+            <td class="prodAsc">Smartwatch</td>
+            <td class="priceAsc">$67,890.12</td>
+            <td class="prodDesc">Headphones</td>
+            <td class="priceDesc">$21,098.76</td>
+            <td class="complexQuery">Product101</td>
+        </tr>
+        <tr id="row5">
+            <td>5</td>
+            <td class="prodAsc">TV</td>
+            <td class="priceAsc">$87,654.32</td>
+            <td class="prodDesc">Camera Lens</td>
+            <td class="priceDesc">$10,987.65</td>
+            <td class="complexQuery">Product102</td>
+        </tr>
+        <tr id="row6">
+            <td>6</td>
+            <td class="prodAsc">Visors</td>
+            <td class="priceAsc">$88,500.32</td>
+            <td class="prodDesc">Belt</td>
+            <td class="priceDesc">$5,987.65</td>
+            <td class="complexQuery">Product103</td>
+        </tr>
+        <tr id="row7">
+            <td>7</td>
+            <td class="prodAsc">WIFI</td>
+            <td class="priceAsc">$90,500.32</td>
+            <td class="prodDesc">Acer</td>
+            <td class="priceDesc">$5,987.65</td>
+            <td class="complexQuery">Product104</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <button id="sortAscDescBtn" class="btn btn-success">Sort Asc/Desc by Product</button>
+
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize sorting direction
+        // Assuming list is sorted ascending
+        var ascending = false;
+
+        // Function to sort rows in ascending or descending order
+        function sortRows(classToSort) {
+            var tableBody = document.getElementById("productTable").getElementsByTagName("tbody")[0];
+            var rows = Array.from(tableBody.getElementsByTagName("tr"));
+            rows.sort(function (a, b) {
+                var textA = a.getElementsByClassName(classToSort)[0].innerText.toLowerCase();
+                var textB = b.getElementsByClassName(classToSort)[0].innerText.toLowerCase();
+                return ascending ? textA.localeCompare(textB) : textB.localeCompare(textA);
+            });
+            rows.forEach(function (row) {
+                tableBody.appendChild(row);
+            });
+            // Toggle sorting direction for next click
+            ascending = !ascending;
+        }
+
+        // Button click event listeners
+        document.getElementById("sortAscDescBtn").addEventListener("click", function () {
+            sortRows("prodAsc");
+        });
+
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
