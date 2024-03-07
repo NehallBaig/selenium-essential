@@ -16,11 +16,14 @@ public class ValidateSortingProducts {
 
     private WebDriver driver;
 
-    @FindBy (id = "sortAscDescBtn")
+    @FindBy(id = "sortAscDescBtn")
     WebElement shuffleListButton;
 
     @FindBy(className = "prodAsc")
     List<WebElement> productNamesAsc;
+
+    @FindBy(className = "prodDesc")
+    List<WebElement> productNamesDesc;
 
     @BeforeTest
     public void initDriver() {
@@ -40,33 +43,67 @@ public class ValidateSortingProducts {
 
     @Test
     public void validateProductSortedNameAscendingNegative() {
+        SoftAssert softAssert = new SoftAssert();
+
         // Shuffle
         System.out.println("Shuffle Prod Asc List");
         shuffleList(shuffleListButton);
 
-        Assert.assertTrue(isAscendingByName(productNamesAsc), "[Negative TestCase] - Products name Asc list is shuffle. Test should fail as expected");
+        softAssert.assertTrue(isAscendingByName(productNamesAsc), "[Negative TestCase] - Products name Asc list is shuffle. Test should fail as expected");
 
-        // Re Shuffle
+        // Un Shuffle
         shuffleList(shuffleListButton);
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void validateProductSortedNameDescending() {
+        Assert.assertTrue(isDescendingByName(productNamesDesc), "Products name are not sorted in descending");
     }
 
     public static boolean isAscendingByName(List<WebElement> list) {
         for (int i = 0; i < list.size() - 1; i++) {
+            String currentNode = list.get(i).getText().toLowerCase();
+            String nextNode = list.get(i + 1).getText().toLowerCase();
             // Compare to
             // a value less than 0 if this string is lexicographically less than the string argument;
-            if (list.get(i).getText().toLowerCase().compareTo(list.get(i + 1).getText().toLowerCase()) > 0) {
+            if (currentNode.compareTo(nextNode) > 0) {
                 return false;
             }
         }
         return true;
     }
 
-    public static void shuffleList(WebElement element){
+    public static boolean isDescendingByName(List<WebElement> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            String currentNode = list.get(i).getText().toLowerCase();
+            String nextNode = list.get(i + 1).getText().toLowerCase();
+            // Compare to
+            // a value greater than 0 if this string is lexicographically less than the string argument;
+            if (currentNode.compareTo(nextNode) < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void shuffleList(WebElement element) {
+        waitForSometime();
         element.click();
+        waitForSometime();
+
     }
 
     @AfterTest
     public void quitDriver() {
         driver.quit();
+    }
+
+    public static void waitForSometime() {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
