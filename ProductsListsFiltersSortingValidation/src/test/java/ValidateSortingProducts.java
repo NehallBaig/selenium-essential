@@ -11,6 +11,8 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValidateSortingProducts {
 
@@ -25,6 +27,9 @@ public class ValidateSortingProducts {
     @FindBy(className = "prodDesc")
     List<WebElement> productNamesDesc;
 
+    @FindBy(className = "priceAsc")
+    List<WebElement> productPriceAsc;
+
     @BeforeTest
     public void initDriver() {
         this.driver = new ChromeDriver();
@@ -35,6 +40,7 @@ public class ValidateSortingProducts {
         driver.get("file:///" + appUrl);
 
     }
+
 
     @Test
     public void validateProductSortedNameAscending() {
@@ -61,6 +67,11 @@ public class ValidateSortingProducts {
         Assert.assertTrue(isDescendingByName(productNamesDesc), "Products name are not sorted in descending");
     }
 
+    @Test
+    public void validateProductSortedPriceAscending() {
+        Assert.assertTrue(isAscendingByPrice(productPriceAsc));
+    }
+
     public static boolean isAscendingByName(List<WebElement> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             String currentNode = list.get(i).getText().toLowerCase();
@@ -72,6 +83,48 @@ public class ValidateSortingProducts {
             }
         }
         return true;
+    }
+
+    public static boolean isAscendingByPrice(List<WebElement> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            try {
+                double currentNode = extractDoubleFromPrice(list.get(i).getText());
+                double nextNode = extractDoubleFromPrice(list.get(i + 1).getText());
+
+                if (currentNode > nextNode) {
+                    return false;
+                }
+            } catch (Exception e) {
+                System.out.println("Exception while extracting double values: " + e.getMessage());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static double extractDoubleFromPrice(String stringPrice) {
+        try {
+            if (validatePrice(stringPrice)) {
+                String price = (stringPrice.split("\\$")[1]).replace(",", "");
+                return Double.parseDouble(price);
+            } else {
+                return 0.0;
+            }
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            // Handle potential exceptions gracefully
+            throw new IllegalArgumentException("Invalid price format", e);
+        }
+    }
+
+    public static boolean validatePrice(String price) {
+        try {
+            // Pattern to match valid price format with dollar sign, comma, and digits
+            Pattern pattern = Pattern.compile(".*[$,\\d].*");
+            Matcher matcher = pattern.matcher(price);
+            return matcher.matches();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid price format", e);
+        }
     }
 
     public static boolean isDescendingByName(List<WebElement> list) {
@@ -91,7 +144,6 @@ public class ValidateSortingProducts {
         waitForSometime();
         element.click();
         waitForSometime();
-
     }
 
     @AfterTest
