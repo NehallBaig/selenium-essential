@@ -30,6 +30,9 @@ public class ValidateSortingProducts {
     @FindBy(className = "priceAsc")
     List<WebElement> productPriceAsc;
 
+    @FindBy(className = "priceDesc")
+    List<WebElement> productPriceDesc;
+
     @BeforeTest
     public void initDriver() {
         this.driver = new ChromeDriver();
@@ -72,6 +75,11 @@ public class ValidateSortingProducts {
         Assert.assertTrue(isAscendingByPrice(productPriceAsc));
     }
 
+    @Test
+    public void validateProductSortedPriceDescending() {
+        Assert.assertTrue(isDescendingByPrice(productPriceDesc));
+    }
+
     public static boolean isAscendingByName(List<WebElement> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             String currentNode = list.get(i).getText().toLowerCase();
@@ -85,6 +93,19 @@ public class ValidateSortingProducts {
         return true;
     }
 
+    public static boolean isDescendingByName(List<WebElement> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            String currentNode = list.get(i).getText().toLowerCase();
+            String nextNode = list.get(i + 1).getText().toLowerCase();
+            // Compare to
+            // a value greater than 0 if this string is lexicographically less than the string argument;
+            if (currentNode.compareTo(nextNode) < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean isAscendingByPrice(List<WebElement> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             try {
@@ -92,6 +113,23 @@ public class ValidateSortingProducts {
                 double nextNode = extractDoubleFromPrice(list.get(i + 1).getText());
 
                 if (currentNode > nextNode) {
+                    return false;
+                }
+            } catch (Exception e) {
+                System.out.println("Exception while extracting double values: " + e.getMessage());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isDescendingByPrice(List<WebElement> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            try {
+                double currentNode = extractDoubleFromPrice(list.get(i).getText());
+                double nextNode = extractDoubleFromPrice(list.get(i + 1).getText());
+
+                if (currentNode < nextNode) {
                     return false;
                 }
             } catch (Exception e) {
@@ -125,19 +163,6 @@ public class ValidateSortingProducts {
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid price format", e);
         }
-    }
-
-    public static boolean isDescendingByName(List<WebElement> list) {
-        for (int i = 0; i < list.size() - 1; i++) {
-            String currentNode = list.get(i).getText().toLowerCase();
-            String nextNode = list.get(i + 1).getText().toLowerCase();
-            // Compare to
-            // a value greater than 0 if this string is lexicographically less than the string argument;
-            if (currentNode.compareTo(nextNode) < 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static void shuffleList(WebElement element) {
