@@ -33,6 +33,18 @@ public class ValidateSortingProducts {
     @FindBy(className = "priceDesc")
     List<WebElement> productPriceDesc;
 
+    @FindBy(xpath = "//*[contains(@class,'promotedProductAsc')]")
+    List<WebElement> promotedProductName;
+
+    @FindBy(xpath = "//*[contains(@class,'PPQPT1')]")
+    List<WebElement> ppqpt1PositiveProductList;
+
+    @FindBy(xpath = "//*[contains(@class,'PPQPT2')]")
+    List<WebElement> ppqpt2PositiveProductList;
+
+    @FindBy(xpath = "//*[contains(@class,'PPQNT')]")
+    List<WebElement> negativeProductList;
+
     @BeforeTest
     public void initDriver() {
         this.driver = new ChromeDriver();
@@ -45,39 +57,79 @@ public class ValidateSortingProducts {
     }
 
 
-    @Test
+    @Test(priority = 1)
     public void validateProductSortedNameAscending() {
         Assert.assertTrue(isAscendingByName(productNamesAsc), "Products name are not sorted in ascending");
     }
 
-    @Test
-    public void validateProductSortedNameAscendingNegative() {
-        SoftAssert softAssert = new SoftAssert();
-
-        // Shuffle
-        System.out.println("Shuffle Prod Asc List");
-        shuffleList(shuffleListButton);
-
-        softAssert.assertTrue(isAscendingByName(productNamesAsc), "[Negative TestCase] - Products name Asc list is shuffle. Test should fail as expected");
-
-        // Un Shuffle
-        shuffleList(shuffleListButton);
-        softAssert.assertAll();
-    }
-
-    @Test
+    @Test(priority = 2)
     public void validateProductSortedNameDescending() {
         Assert.assertTrue(isDescendingByName(productNamesDesc), "Products name are not sorted in descending");
     }
 
-    @Test
+    @Test(priority = 3)
     public void validateProductSortedPriceAscending() {
         Assert.assertTrue(isAscendingByPrice(productPriceAsc));
     }
 
-    @Test
+    @Test(priority = 4)
     public void validateProductSortedPriceDescending() {
         Assert.assertTrue(isDescendingByPrice(productPriceDesc));
+    }
+    @Test(priority = 5)
+    public void validateProductSortedPromotedNameAscending() {
+        Assert.assertTrue(isAscendingByPromotedProductName(promotedProductName, "ad"), "Products name are not sorted in ascending");
+    }
+
+    @Test(priority = 6)
+    public void validateProductSortedPPQPTTest() {
+        Assert.assertTrue(isAscendingByPromotedProductName(ppqpt1PositiveProductList, "ad"), "Products name are not sorted in ascending");
+    }
+
+    @Test(priority = 7)
+    public void validateProductSortedPPQPT2Test() {
+        Assert.assertTrue(isAscendingByPromotedProductName(ppqpt2PositiveProductList, "ad"), "Products name are not sorted in ascending");
+    }
+    @Test(priority = 8)
+    public void validateProductSortedNegativeTest() {
+        Assert.assertFalse(isAscendingByPromotedProductName(negativeProductList, "ad"), "Products name are not sorted in ascending");
+    }
+    @Test(priority = 9)
+    public void validateProductSortedNameAscendingNegative() {
+        // Shuffle
+        System.out.println("Shuffle Prod Asc List");
+        shuffleList();
+        Assert.assertFalse(isAscendingByName(productNamesAsc), "[Negative TestCase] - Products name Asc list is shuffle. Test should pass as expected");
+    }
+
+
+    @Test(priority = 10)
+    public void validateProductSortedNameDescendingNegative() {
+        Assert.assertFalse(isDescendingByName(productNamesDesc), "Products name are not sorted in descending");
+    }
+
+    @Test(priority = 11)
+    public void validateProductSortedPriceAscendingNegative() {
+        Assert.assertFalse(isAscendingByPrice(productPriceAsc));
+    }
+
+    @Test(priority = 12)
+    public void validateProductSortedPriceDescendingNegative() {
+        Assert.assertFalse(isDescendingByPrice(productPriceDesc));
+    }
+    @Test(priority = 13)
+    public void validateProductSortedPromotedNameAscendingNegative() {
+        Assert.assertFalse(isAscendingByPromotedProductName(promotedProductName, "ad"), "Products name are not sorted in ascending");
+    }
+
+    @Test(priority = 14)
+    public void validateProductSortedPPQPTTestNegative() {
+        Assert.assertFalse(isAscendingByPromotedProductName(ppqpt1PositiveProductList, "ad"), "Products name are not sorted in ascending");
+    }
+
+    @Test(priority = 15)
+    public void validateProductSortedPPQPT2TestNegative() {
+        Assert.assertFalse(isAscendingByPromotedProductName(ppqpt2PositiveProductList, "ad"), "Products name are not sorted in ascending");
     }
 
     public static boolean isAscendingByName(List<WebElement> list) {
@@ -140,6 +192,32 @@ public class ValidateSortingProducts {
         return true;
     }
 
+    public static boolean isAscendingByPromotedProductName(List<WebElement> list, String prefix){
+        boolean isPromoted = false;
+
+        for (int i = 0; i < list.size()-1; i++) {
+            try {
+                String currentNode = list.get(i).getText().toLowerCase();
+                String nextNode = list.get(i + 1).getText().toLowerCase();
+
+                isPromoted = currentNode.contains(prefix);
+
+                if(!isPromoted && nextNode.contains(prefix)) {
+                    return false;
+                }
+
+                if(currentNode.compareTo(nextNode)>0){
+                    return  false;
+                }
+
+            } catch (Exception e) {
+                System.out.println("Exception while extracting double values: " + e.getMessage());
+                return false;
+            }
+        }
+        return  true;
+    }
+
     public static double extractDoubleFromPrice(String stringPrice) {
         try {
             if (validatePrice(stringPrice)) {
@@ -165,9 +243,9 @@ public class ValidateSortingProducts {
         }
     }
 
-    public static void shuffleList(WebElement element) {
+    public void shuffleList() {
         waitForSometime();
-        element.click();
+        shuffleListButton.click();
         waitForSometime();
     }
 
