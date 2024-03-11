@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Product and Price Table</title>
+    <title>Product Sorting Validation Queries</title>
     <style>
 
         #productTable {
@@ -27,6 +27,7 @@
 
 <div class="container mt-5">
     <h2>Sorting Validation Playground</h2>
+    <h2>PPQPT = Promoted Product Query Positive Test</h2>
     <table class="table table-bordered " id="productTable"> <!-- Apply table-light class for a light background -->
         <thead>
         <tr>
@@ -35,7 +36,10 @@
             <th id="priceAscHeader">Price Asc</th>
             <th id="prodDescHeader">Prod Desc</th>
             <th id="priceDescHeader">Price Desc</th>
-            <th id="complexQueryHeader">Promoted Product Query</th>
+            <th id="promotedProductHeader">Promoted Product Query</th>
+            <th id="promotedProductTest1Header">PPQPT 1</th>
+            <th id="promotedProductTest2Header">PPQPT 2</th>
+            <th class="bg-danger" id="promotedProductTest3Header">PPQNT 3 Negative</th>
         </tr>
         </thead>
         <tbody>
@@ -46,7 +50,10 @@
             <td class="priceAsc">$12,345.67</td>
             <td class="prodDesc">TV</td>
             <td class="priceDesc">$98,765.43</td>
-            <td class="complexQuery highlight-row">AdProduct1</td>
+            <td class="promotedProductAsc highlight-row">AdProduct101</td>
+            <td class="PPQPT1 ">AdProduct101</td>
+            <td class="PPQPT2 ">Product101</td>
+            <td class="PPQNT ">Product101</td>
         </tr>
         <tr id="row2">
             <td>2</td>
@@ -54,7 +61,10 @@
             <td class="priceAsc">$34,567.89</td>
             <td class="prodDesc">Smartwatch</td>
             <td class="priceDesc">$65,432.10</td>
-            <td class="complexQuery highlight-row">AdProduct2</td>
+            <td class="promotedProductAsc highlight-row">AdProduct102</td>
+            <td class="PPQPT1">AdProduct102</td>
+            <td class="PPQPT2 ">Product102</td>
+            <td class="PPQNT  bg-danger">AdProduct102</td>
         </tr>
         <tr id="row3">
             <td>3</td>
@@ -62,7 +72,10 @@
             <td class="priceAsc">$54,321.09</td>
             <td class="prodDesc">iPhone</td>
             <td class="priceDesc">$45,678.12</td>
-            <td class="complexQuery highlight-row">AdProduct3</td>
+            <td class="promotedProductAsc highlight-row">AdProduct103</td>
+            <td class="PPQPT1 ">AdProduct103</td>
+            <td class="PPQPT2 ">Product103</td>
+            <td class="PPQNT ">Product103</td>
         </tr>
         <tr id="row4">
             <td>4</td>
@@ -70,7 +83,10 @@
             <td class="priceAsc">$67,890.12</td>
             <td class="prodDesc">Headphones</td>
             <td class="priceDesc">$21,098.76</td>
-            <td class="complexQuery">Product101</td>
+            <td class="promotedProductAsc ">Product104</td>
+            <td class="PPQPT1 ">AdProduct104</td>
+            <td class="PPQPT2 ">Product104</td>
+            <td class="PPQNT ">Product104</td>
         </tr>
         <tr id="row5">
             <td>5</td>
@@ -78,7 +94,10 @@
             <td class="priceAsc">$87,654.32</td>
             <td class="prodDesc">Camera Lens</td>
             <td class="priceDesc">$10,987.65</td>
-            <td class="complexQuery">Product102</td>
+            <td class="promotedProductAsc ">Product105</td>
+            <td class="PPQPT1 ">AdProduct105</td>
+            <td class="PPQPT2 ">Product105</td>
+            <td class="PPQNT ">Product105</td>
         </tr>
         <tr id="row6">
             <td>6</td>
@@ -86,7 +105,10 @@
             <td class="priceAsc">$88,500.32</td>
             <td class="prodDesc">Belt</td>
             <td class="priceDesc">$5,987.65</td>
-            <td class="complexQuery">Product103</td>
+            <td class="promotedProductAsc ">Product106</td>
+            <td class="PPQPT1 ">AdProduct106</td>
+            <td class="PPQPT2 ">Product106</td>
+            <td class="PPQNT ">Product106</td>
         </tr>
         <tr id="row7">
             <td>7</td>
@@ -94,7 +116,10 @@
             <td class="priceAsc">$90,500.32</td>
             <td class="prodDesc">Acer</td>
             <td class="priceDesc">$5,987.65</td>
-            <td class="complexQuery">Product104</td>
+            <td class="promotedProductAsc ">Product107</td>
+            <td class="PPQPT1 ">AdProduct107</td>
+            <td class="PPQPT2 ">Product107</td>
+            <td class="PPQNT ">Product107</td>
         </tr>
 
         </tbody>
