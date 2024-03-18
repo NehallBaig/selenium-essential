@@ -58,3 +58,4 @@ Thumbs.db
 # Except for HiddenElementExampleWebPage.html and CustomWaitRecording.mp4
 !HiddenElementExampleWebPage.html
 !CustomWaitExampleRecording.mp4
+!Example.html
